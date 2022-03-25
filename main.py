@@ -1,16 +1,13 @@
 #!/usr/bin/env python3
 
 """Simple script generator
-
 This script generates a transaction on a specific node
 with the following restrictions:
-
  - cluster, Cluster number,
  - node, Node number,
  - number, Transaction number,
  - wallet, Wallet id,
  - count, Wallet count.
-
 """
 
 import argparse
@@ -40,14 +37,12 @@ def parse_args(args=sys.argv[1:]):
 
 def set_wallet(cluster, node, wallet, count):
     """Sets the bgt value"""
-    if option.wallet is None:
-        option.wallet = option.node
 
     console = f"docker exec -it shell-dgt-c{cluster}-{node} "
-    creat_wallets = f"bgt set wallet_{wallet} {count} "
+    creat_wallets = f"bgt set wallet_{wallet} {count}"
     cluster_long = f"{80 + cluster:02}"
     node_long = f"{7 + node:02}"
-    rest_ip_http = f"http://api-dgt-c{cluster}-{node}:{cluster_long}{node_long}"
+    rest_ip_http = f" http://api-dgt-c{cluster}-{node}:{cluster_long}{node_long}"
 
     command = console + creat_wallets
 
@@ -67,6 +62,8 @@ def trans_wallet():
 if __name__ == '__main__':
     """main"""
     option = parse_args()
+    if option.wallet is None:
+        option.wallet = option.node
 
     i = 0
     count = option.count
