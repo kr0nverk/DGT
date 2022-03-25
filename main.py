@@ -49,7 +49,7 @@ def set_wallet(cluster, node, wallet, count):
     node_long = f"{7 + node:02}"
     rest_ip_http = f"http://api-dgt-c{cluster}-{node}:{cluster_long}{node_long}"
 
-    command = console + creat_wallets + rest_ip_http
+    command = console + creat_wallets
 
     print(command)
     #print(os.system(command))
