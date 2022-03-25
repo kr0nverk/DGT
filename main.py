@@ -51,8 +51,8 @@ def set_wallet(cluster, node, wallet, count):
 
     command = console + creat_wallets
 
-    print(command)
-    #print(os.system(command))
+    #print(command)
+    print(os.system(command))
 
 def inc_wallet():
     """increases bgt value"""
