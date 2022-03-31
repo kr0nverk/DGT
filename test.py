@@ -1,9 +1,7 @@
 #!/usr/bin/python
 """Simple script generator
-
 This script generates a transaction on a specific node
 with the following restrictions:
-
  - cluster, Cluster number,
  - node, Node number,
  - function, set/inc/dec/trans,
@@ -11,7 +9,6 @@ with the following restrictions:
  - wallet, Wallet id,
  - count, Wallet count,
  - wallet2, Wallet2 id.
-
 """
 import sys
 import argparse
@@ -51,7 +48,7 @@ def SetWallet(cluster, node, wallet, count):
     set_wallets = ("bgt set {wallet} {count}").format(wallet=wallet, count=count)
     command = console + set_wallets
 
-    return(command)
+    return command
 
 def IncWallet(cluster, node, wallet, count):
     """increases bgt value"""
@@ -60,7 +57,7 @@ def IncWallet(cluster, node, wallet, count):
     inc_wallets = ("bgt inc {wallet} {count}").format(wallet=wallet, count=count)
     command = console + inc_wallets
 
-    return(command)
+    return command
 
 def DecWallet(cluster, node, wallet, count):
     """reduces dgt value"""
@@ -69,7 +66,7 @@ def DecWallet(cluster, node, wallet, count):
     dec_wallets = ("bgt dec {wallet} {count}").format(wallet=wallet, count=count)
     command = console + dec_wallets
 
-    return(command)
+    return command
 
 def TransWallet(cluster, node, from_wallet, count, to_wallet):
     """ transfers tokens from wallet to wallet"""
@@ -78,7 +75,7 @@ def TransWallet(cluster, node, from_wallet, count, to_wallet):
     trans_wallets = ("bgt trans {from_wallet} {count} {to_wallet}").format(from_wallet=from_wallet, count=count, to_wallet=to_wallet)
     command = console + trans_wallets
 
-    return (command)
+    return command
 
 def RemoteClient(hostname, commands):
     """Connect to SSH Server"""
@@ -92,7 +89,7 @@ def RemoteClient(hostname, commands):
         exit()
 
     for i, command in enumerate(commands):
-        print("Executing the Command {n}:".format(n=i+1))
+        print("Executing the Command {i}".format(i=i+1))
         stdin, stdout, stderr = ssh.exec_command(command, get_pty=True)
         #time.sleep(1)
         print(stdout.read().decode())
@@ -130,9 +127,13 @@ def Main():
 
     option = ParseArgs()
 
-    cluster_node = str(option.cluster) + str(option.node)
-    hostname = topology_hosts[topology_nodes.index(cluster_node)]
-    #print(hostname)
+    try:
+        cluster_node = str(option.cluster) + str(option.node)
+        hostname = topology_hosts[topology_nodes.index(cluster_node)]
+        #print(hostname)
+    except:
+        print("[!] Cannot find node in topology")
+        exit()
 
     commands = CreateCommands(option.cluster, option.node, option.function, option.number, option.wallet, option.count, option.wallet2)
     #print(commands)
