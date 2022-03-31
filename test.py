@@ -91,10 +91,10 @@ def RemoteClient(hostname, commands):
         print("[!] Cannot connect to SSH Server")
         exit()
 
-    for command in commands:
-        print("Executing the Command: ")
+    for i, command in enumerate(commands):
+        print("Executing the Command {n}:".format(n=i+1))
         stdin, stdout, stderr = ssh.exec_command(command, get_pty=True)
-        time.sleep(1)
+        #time.sleep(1)
         print(stdout.read().decode())
         err = stderr.read().decode()
         if err:
